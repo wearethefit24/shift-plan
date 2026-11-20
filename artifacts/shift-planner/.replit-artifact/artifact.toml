@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "シフト自動作成"
+description = "社員の希望休や勤務条件を登録し、月間シフトを自動作成・調整できるブラウザ完結型シフト管理アプリ。"
+version = "1.0.0"
+id = "artifacts/shift-planner"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20663
+
+[services.development]
+run = "pnpm --filter @workspace/shift-planner run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/shift-planner", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/shift-planner/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20663"
+BASE_PATH = "/"
